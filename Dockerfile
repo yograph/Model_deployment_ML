@@ -1,7 +1,7 @@
-# Use the slim-buster Python image
+# Use the official slim‐buster Python 3.9 image
 FROM python:3.9.6-slim-buster
 
-# Install OS-level libraries for OpenCV (incl. the GLib thread lib)
+# Install OS‐level libraries needed by OpenCV (incl. GLib for threading)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       build-essential \
@@ -12,17 +12,21 @@ RUN apt-get update && \
       libxrender-dev && \
     rm -rf /var/lib/apt/lists/*
 
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy & install all Python deps (including uvicorn & streamlit)
+# Copy & install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy your app code and model weights
-COPY api.py roi_extract.py streamlit_app.py model_weights/ /app/
+# Copy model weights explicitly into /app/model_weights
+COPY model_weights /app/model_weights
 
-# Expose FastAPI (8000) and Streamlit (8501)
+# Copy your application code
+COPY api.py roi_extract.py streamlit_app.py /app/
+
+# Expose FastAPI (8000) and Streamlit (8501) ports
 EXPOSE 8000 8501
 
-# Launch both services (exec form)
+# Launch both services in one container
 CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port 8000 & streamlit run streamlit_app.py --server.port 8501 --server.headless true"]

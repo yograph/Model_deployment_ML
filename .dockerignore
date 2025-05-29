@@ -1,0 +1,15 @@
+# Ignore Python bytecode, virtual env, etc.
+__pycache__/
+*.pyc
+.venv/
+
+# But do NOT ignore your model weights
+!model_weights/
+!model_weights/*
+
+# Don’t ignore these either
+!api.py
+!roi_extract.py
+!streamlit_app.py
+!requirements.txt
+!Dockerfile
