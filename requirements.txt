@@ -1,0 +1,19 @@
+# Web framework & server
+fastapi==0.95.2
+uvicorn==0.22.0
+python-multipart==0.0.6
+
+# HTTP client (used by Streamlit)
+requests==2.31.0
+
+# Streamlit demo
+streamlit==1.25.0
+
+# Image I/O & processing
+opencv-python==4.7.0.72
+Pillow==9.5.0
+
+# Numerical & ML libraries
+numpy==1.25.0
+torch==2.1.0
+torchvision==0.16.0
